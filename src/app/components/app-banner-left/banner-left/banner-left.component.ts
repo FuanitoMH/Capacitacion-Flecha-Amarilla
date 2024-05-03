@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './banner-left.component.css'
 })
 export class BannerLeftComponent {
-
+  
 }
