@@ -1,17 +1,34 @@
-
 <style></style>
 
+{{alumnos}}
+<button mat-raised-button (click)="funicionEjemplo()">hola</button>
+<button *ngIf='valorif' mat-raised-button (click)="funicionEjemplo()">hola</button>
 
-<div class="content">
+<!-- HEADER -->
+<mat-grid-tile-header cols="2" rowHeight="2:2">
   <app-header></app-header>
-  <app-banner-left></app-banner-left>
-  <app-banner-right></app-banner-right>
-  <app-body></app-body>
+</mat-grid-tile-header>
+
+
+<!-- BANNER -->
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile style="background-color: blue;"> <app-banner-right></app-banner-right> </mat-grid-tile> 
+  <mat-grid-tile style="background-color: red;"> <app-banner-left></app-banner-left> </mat-grid-tile>
+</mat-grid-list>
+
+<ul>
+  <li *ngFor="let variable of variables">
+    {{variable.nombre}}
+  </li>
+</ul>
+
+<!-- BODY -->
+<app-body></app-body>
+
+<router-outlet>
+</router-outlet>
+
+<!-- FOOTER -->
+<mat-grid-tile-footer cols="2" rowHeight="2:2">
   <app-footer></app-footer>
-
-</div>
-
-<button [routerLink]="['/first-component']" >First component</button>
-<button [routerLink]="['/error']" >Second component</button>
-
-<router-outlet />
+</mat-grid-tile-footer> 

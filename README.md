@@ -39,3 +39,27 @@ export const routes: Routes = [
 <button [routerLink]="['/error']" >Second component</button>
 
 ```
+---
+## Ejercicio 03
+Las actividades realizadas se enfocaron en el aprendizaje de la manipulación y diseño de una página.
+
+Para ello, se hizo la instalación de un paquete extra, que proporciona componentes que facilitan con la estructuración y estilo de la pagina.
+
+El paquete Utilizado es [Angular Material](https://material.angular.io). Y para realizar su instalacion es con el siguiente comando
+```
+ng add @angular/material
+```
+
+Un componente visto fue el __Grid-List__, es una vista de lista bidimensional que organiza las celdas en un diseño basado en cuadrícula.
+```
+<!-- HEADER -->
+<mat-grid-tile-header cols="2" rowHeight="2:2">
+  <app-header mat-grid-tile></app-header>
+</mat-grid-tile-header>
+```
+
+Otro componente visto fue el __Button__, Los elementos nativos `<button>` o `<a>` se mejoran con estilos de Material Design y efectos de tinta.
+```
+<button [routerLink]="['/first-component']" mat-stroked-button color="warn" >First component</button>
+<button [routerLink]="['/error']" mat-flat-button color="primary">Second component</button>
+```
