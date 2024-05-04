@@ -63,3 +63,61 @@ Otro componente visto fue el __Button__, Los elementos nativos `<button>` o `<a>
 <button [routerLink]="['/first-component']" mat-stroked-button color="warn" >First component</button>
 <button [routerLink]="['/error']" mat-flat-button color="primary">Second component</button>
 ```
+___
+## Ejercicio 4 
+### Services
+En esta sesión vimos como se hace el uso de los servicios en Angulas.
+Para crear un servicio se utiliza el conamdo `ng`
+```
+ng generate service <servicename>
+```
+
+En este caso cramos un servicio llamado obtener-datos que nos ayuda a recopilar información de una api por medio de los protocolos http
+
+file: __\src\app\services\obtener-datos.service.ts__
+```
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+const httpOptions = {
+  headers: new HttpHeaders(
+    {
+      'Content-Type': 'application/json',
+    }
+  )
+};
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ObtenerDatosService {
+
+  constructor(private http:HttpClient) { }
+
+  getPokemon(url: string): Observable<object> {
+    return this.http.get(url, httpOptions)
+  }
+  
+}
+```
+Archivo: __\src\app\app.component.ts__
+```
+export class AppComponent implements OnInit {
+  constructor(private ObtenerDatosService: ObtenerDatosService) {}
+
+  ngOnInit(): void{
+    this.getPokemon();
+  } 
+  variables: any;
+
+  getPokemon(): void{
+    this.ObtenerDatosService.getPokemon('https://pokeapi.co/api/v2/pokemon').subscribe(
+      (items: any) => {
+        this.variables = items.results;
+        console.log(items.results);
+      }
+    )
+  }
+}
+```
