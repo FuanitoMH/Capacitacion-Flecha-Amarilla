@@ -9,29 +9,47 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { ObtenerDatosService } from './services/obtener-datos.service';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterLink, BannerRightComponent, BannerLeftComponent, BodyComponent, HeaderComponent,
-    FooterComponent, MatButtonModule, MatGridListModule, CommonModule],
+    FooterComponent, MatButtonModule, MatGridListModule, CommonModule, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  constructor(private ObtenerDatosService: ObtenerDatosService) {
-  
+
+  valores: any;
+  checkoutForm : any;
+
+  constructor(private ObtenerDatosService: ObtenerDatosService, private formBuilder: FormBuilder) {
+    this.checkoutForm = this.formBuilder.group({
+      name: new FormControl(null, [Validators.minLength(1)]),
+      url: new FormControl(null, [Validators.maxLength(2)]),
+      email: new FormControl(null, [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
+    });
   }
   ngOnInit(): void{
     this.getPokemon();
   } 
 
-  variables: any;
+  onSubmit(valorFormulario: any){
+    if( (this.checkoutForm.invalid || (this.checkoutForm.get('name').value == 'angular') )){
+      alert('Formulario invalido')
+    }else{
+      this.valores.push(valorFormulario); 
+      this.checkoutForm.reset();
+    }
+  }
 
   getPokemon(): void{
     this.ObtenerDatosService.getPokemon('https://pokeapi.co/api/v2/pokemon').subscribe(
       (items: any) => {
-        this.variables = items.results;
+        this.valores = items.results;
         console.log(items.results);
       }
     )
