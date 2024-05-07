@@ -17,8 +17,8 @@
 </mat-grid-list>
 
 <ul>
-  <li *ngFor="let variable of variables">
-    {{variable.name}}
+  <li *ngFor="let valor of valores">
+    {{valor.name}}
   </li>
 </ul>
 
@@ -32,3 +32,21 @@
 <mat-grid-tile-footer cols="2" rowHeight="2:2">
   <app-footer></app-footer>
 </mat-grid-tile-footer> 
+
+
+<!-- FORMGRUP -->
+<div style="text-align: center;"> 
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+    
+    <label for="name">Name</label>
+    <input id="name" type="text" formControlName="name">
+    
+    <label for="url">URL</label>
+    <input id="url" type="text" formControlName="url">
+
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email">
+
+    <button mat-flat-button color="primary" type="submit">Purchase</button>
+  </form>
+</div>
