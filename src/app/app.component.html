@@ -4,6 +4,9 @@
 <button mat-raised-button (click)="funicionEjemplo()">hola</button>
 <button *ngIf='valorif' mat-raised-button (click)="funicionEjemplo()">hola</button>
 
+<app-app-loader></app-app-loader>
+<div [ngClass]="loader ? 'cargando' : ''">
+
 <!-- HEADER -->
 <mat-grid-tile-header cols="2" rowHeight="2:2">
   <app-header></app-header>

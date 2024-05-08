@@ -10,23 +10,26 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { ObtenerDatosService } from './services/obtener-datos.service';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-
-
+import { ObservablesService } from './services/observables.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AppLoaderComponent } from './components/app-loader/app-loader.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterLink, BannerRightComponent, BannerLeftComponent, BodyComponent, HeaderComponent,
-    FooterComponent, MatButtonModule, MatGridListModule, CommonModule, ReactiveFormsModule],
+    FooterComponent, MatButtonModule, MatGridListModule, CommonModule, ReactiveFormsModule, MatProgressSpinnerModule,
+    AppLoaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
 
-  valores: any;
+  valores: any[] = [];
   checkoutForm : any;
+  loader: Boolean = false;
 
-  constructor(private ObtenerDatosService: ObtenerDatosService, private formBuilder: FormBuilder) {
+  constructor(private ObtenerDatosService: ObtenerDatosService, private formBuilder: FormBuilder, private observablesService: ObservablesService) {
     this.checkoutForm = this.formBuilder.group({
       name: new FormControl(null, [Validators.minLength(1)]),
       url: new FormControl(null, [Validators.maxLength(2)]),
@@ -35,6 +38,10 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void{
     this.getPokemon();
+    this.observablesService.loaderObs.subscribe((valor: Boolean) => {
+      this.loader = valor;
+      console.log(valor);
+    });
   } 
 
   onSubmit(valorFormulario: any){
@@ -49,8 +56,9 @@ export class AppComponent implements OnInit {
   getPokemon(): void{
     this.ObtenerDatosService.getPokemon('https://pokeapi.co/api/v2/pokemon').subscribe(
       (items: any) => {
-        this.valores = items.results;
         console.log(items.results);
+        this.valores = items.results;
+        setTimeout(() => this.observablesService.actualizarValorLoader(false),5000);        
       }
     )
   }
