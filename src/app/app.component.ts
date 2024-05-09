@@ -9,17 +9,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { ObtenerDatosService } from './services/obtener-datos.service';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ObservablesService } from './services/observables.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AppLoaderComponent } from './components/app-loader/app-loader.component';
+import { Pokemon } from './entities/pokemon';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterLink, BannerRightComponent, BannerLeftComponent, BodyComponent, HeaderComponent,
     FooterComponent, MatButtonModule, MatGridListModule, CommonModule, ReactiveFormsModule, MatProgressSpinnerModule,
-    AppLoaderComponent],
+    AppLoaderComponent, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
   valores: any[] = [];
   checkoutForm : any;
   loader: Boolean = false;
+  pokemon: Pokemon = new Pokemon();
 
   constructor(private ObtenerDatosService: ObtenerDatosService, private formBuilder: FormBuilder, private observablesService: ObservablesService) {
     this.checkoutForm = this.formBuilder.group({
