@@ -126,7 +126,52 @@ ___
 ## Ejercicio 05
 
 
-### FORMGROUP
-### NGSUBMIT
+### FormGroup
+Los FormGroup es la forma ágil de crear formularios y manipular su información de una manera más sencilla. Además de que nos brinda de herramientas para su construcción y validación de datos. 
 
-###
+### NgSubmit
+ngSubmit es la propiedad que nos ayuda a escuchar el evento del usuario al lanzar la información 
+
+Para la construcción de un Formulario en importante realizar la importaciones 
+```
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+```
+La estructura en nuestro HTML a segir es la se compone de la siguiente manera
+```
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+    <label for="name">Name</label>
+    <input id="name" type="text" formControlName="name">
+    
+    <label for="url">URL</label>
+    <input id="url" type="text" formControlName="url">
+
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email">
+
+    <button mat-flat-button color="primary" type="submit">Purchase</button>
+  </form>
+```
+Y dentro de nuestro constructor del componente, declaramos nuestro objeto checkoutForm, junto con nuestras variables correspondientes a los inputs del form 
+```
+  checkoutForm : any;
+
+  constructor(private ObtenerDatosService: ObtenerDatosService, private formBuilder: FormBuilder) {
+    this.checkoutForm = this.formBuilder.group({
+      name: new FormControl(null, [Validators.minLength(1)]),
+      url: new FormControl(null, [Validators.maxLength(2)]),
+      email: new FormControl(null, [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
+    });
+  }
+```
+
+Para que posteriormente podamos establecer nuestra funcion `onSubmit()` que cubre el evento submit del usuario
+```
+  onSubmit(valorFormulario: any){
+    if( (this.checkoutForm.invalid || (this.checkoutForm.get('name').value == 'angular') )){
+      alert('Formulario invalido')
+    }else{
+      this.valores.push(valorFormulario); 
+      this.checkoutForm.reset();
+    }
+  }
+```
