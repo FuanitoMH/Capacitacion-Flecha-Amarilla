@@ -175,3 +175,38 @@ Para que posteriormente podamos establecer nuestra funcion `onSubmit()` que cubr
     }
   }
 ```
+___
+## Ejercicio 06
+### Observables-Subscribe
+Se utiliza ampliamente para la programación reactiva en Angular. Los observables representan una colección de valores que pueden llegar con el tiempo.  
+En Angular, los observables se utilizan en muchos aspectos de la aplicación, como manejar eventos del usuario, manejar datos asíncronos provenientes de servicios (por ejemplo, solicitudes HTTP), propagar cambios en el estado de la aplicación a través de componentes y mucho más.  
+En este caso nosotros creamos un Observable mediante un nuevo servicio que el objetivo es utilizarlo para un loader.
+```
+export class ObservablesService {
+  private loader$ = new BehaviorSubject<boolean>(true);
+  public loaderObs = this.loader$.asObservable();
+
+  actualizarValorLoader(valor: boolean){
+    this.loader$.next(valor);
+  }
+  constructor() { }
+}
+```
+Tiene que ser integrado como parámetro a nuestro constructor del app-component y en nuestro caso establecemos su valor en el `NgOnInit()` y mediante un `setTimeOut()` modificamos su valor para simular el asincronismo
+```
+ngOnInit(): void{
+  this.getPokemon();
+  this.observablesService.loaderObs.subscribe((valor: Boolean) => {
+    this.loader = valor;
+    console.log(valor);
+  });
+}
+
+setTimeout(() => this.observablesService.actualizarValorLoader(false),5000);  
+```
+
+### NgClass
+El básicamente es usado para asignarle clases a nuestros componentes o etiquetas que agregamso en el HTML
+````
+<div [ngClass]="loader ? 'cargando' : ''">
+```
