@@ -244,4 +244,24 @@ export const routes: Routes = [
     {path: 'error', component: NofoundComponent, canActivate: [guardiaSesionGuard]}
 ];
 ```
+### NgModel
+Cuando usas ngModel, estableces una asociación entre el valor del control HTML y una propiedad en el componente de Angular. Esto significa que cualquier cambio en el valor del control HTML se reflejará automáticamente en la propiedad del componente y viceversa.
+Para utilizar en NgModel es necesario tener importado el paquete `FormsModule`
 
+En nuestro caso creamos una clase Pokemon con el comando 
+```
+ng generate class <Pokemon>
+```
+Para que a su vez crear una instancia en el app.component ``pokemon: Pokemon = new Pokemon();`` 
+
+Que junto con nuestro input en el HTML que le asignamos a la propiedad de ngModel la referencia a nuestra instancia de pokemon 
+```
+<input type="text" id="pokemon" [(ngModel)]="pokemon.name">
+{{pokemon.name}}
+```
+
+### Ng Build 
+Angular nos provee un comando que nos ayuda a hacer la contrucción de nuestra aplicacion para hacer el desplege, el comando es el siguiente:
+```
+ng build <project>
+```
