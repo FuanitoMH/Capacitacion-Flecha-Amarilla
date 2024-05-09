@@ -207,6 +207,61 @@ setTimeout(() => this.observablesService.actualizarValorLoader(false),5000);
 
 ### NgClass
 El básicamente es usado para asignarle clases a nuestros componentes o etiquetas que agregamso en el HTML
-````
+```
 <div [ngClass]="loader ? 'cargando' : ''">
+```  
+___
+## Ejercicio 07
+### Guard
+En Angular, los "guards" (guardias) son una característica que te permite controlar la navegación y la activación de rutas en tu aplicación. Los guards se utilizan principalmente en el enrutamiento para proteger las rutas y asegurarse de que ciertas condiciones se cumplan antes de permitir que un usuario acceda a una ruta específica.
+
+Para crear un Guardia usamos el comando 
+```
+ng generate guard <name>
+```
+La estructura básica que usamos para crear nuestro guardia fue la siguente, como tal el objetivo es que si el usuario intenta entrar a la ruta 'error', mostraremos una alerta que le indique que la ruta no está permitida
+```
+@Injectable({ providedIn: 'root' })
+class PermissionService { 
+  puedeActivarRuta(rutaIngresada: string): boolean {
+    console.log('Ruta ingresada: ', rutaIngresada);
+    if (rutaIngresada == 'error'){
+      alert('Ruta no permitida');
+      return false;
+    }else {
+      return true;
+    }
+  }
+}
+  export const guardiaSesionGuard: CanActivateFn = (route, state) => {
+  return inject(PermissionService).puedeActivarRuta(route.url.toString());
+};
+```
+Y por ultimo, para que nuestra Guardia funcione necesitamos incluirlo como un atributo a las rutas que tenemos establecidas en el archivo de app.rutes.ts
+```
+export const routes: Routes = [
+    {path: 'first-component', component: FirstComponent, canActivate: [guardiaSesionGuard]},
+    {path: 'error', component: NofoundComponent, canActivate: [guardiaSesionGuard]}
+];
+```
+### NgModel
+Cuando usas ngModel, estableces una asociación entre el valor del control HTML y una propiedad en el componente de Angular. Esto significa que cualquier cambio en el valor del control HTML se reflejará automáticamente en la propiedad del componente y viceversa.
+Para utilizar en NgModel es necesario tener importado el paquete `FormsModule`
+
+En nuestro caso creamos una clase Pokemon con el comando 
+```
+ng generate class <Pokemon>
+```
+Para que a su vez crear una instancia en el app.component ``pokemon: Pokemon = new Pokemon();`` 
+
+Que junto con nuestro input en el HTML que le asignamos a la propiedad de ngModel la referencia a nuestra instancia de pokemon 
+```
+<input type="text" id="pokemon" [(ngModel)]="pokemon.name">
+{{pokemon.name}}
+```
+
+### Ng Build 
+Angular nos provee un comando que nos ayuda a hacer la contrucción de nuestra aplicacion para hacer el desplege, el comando es el siguiente:
+```
+ng build <project>
 ```
